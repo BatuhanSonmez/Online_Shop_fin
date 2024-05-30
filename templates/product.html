@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.title }} | {% endblock %}
+
+{% block content %}
+    <div class="columns">
+        <div class="column is-one-third">
+            <!-- Display Product Image -->
+            <img src="{{ product.image_url }}" alt="{{ product.title }}" class="product-image">
+        </div>
+        <div class="column is-two-thirds">
+            <h1 class="title">{{ product.title }}, ${{ product.price }}</h1>
+
+            <p class="mb-6"><span class="tag is-dark">{{ product.seller.name }}</span></p>
+
+            <p>{{ product.description }}</p>
+
+            <hr>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="notification is-success is-toast">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" action=".">
+                {% csrf_token %}
+
+                <div class="field has-addons">
+                    <div class="control">
+                        <label>
+                            <input type="number" name="quantity" value="1" class="input" min="1" style="font-size: 0px">
+                        </label>
+                    </div>
+
+                    <div class="control">
+                        <button class="button is-dark is-uppercase">Add to cart</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% if similar_products %}
+        <hr>
+
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <h2 class="subtitle">Similar products</h2>
+            </div>
+
+            {% for product in similar_products %}
+                {% include 'list_item.html' %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

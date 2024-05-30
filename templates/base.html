@@ -1,0 +1,87 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% block title %}{% endblock %}My Beautiful Site</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+        <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+
+        <script src="{% static 'scripts/main.js' %}"></script>
+    </head>
+
+    <body>
+        <nav class="navbar is-dark">
+            <div class="navbar-brand">
+                <a href="/" class="navbar-item"><strong>My Beautiful Site</strong></a>
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="main-navbar">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div class="navbar-menu" id="main-navbar">
+                <div class="navbar-end">
+                                <div class="navbar-end">
+            </div>
+                </div>
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <form method="get" action="{% url 'search' %}">
+                            <div class="field has-addons">
+                                <div class="control">
+                                    <input type="text" class="input" placeholder="Search" name="query">
+                                </div>
+                                <div class="control">
+                                    <button class="button is-dark is-uppercase">Search</button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <a href="{% url 'sellers' %}" class="navbar-item">All Sellers</a>
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'logout' %}" class="navbar-item">Log Out</a>
+                        <a href="{% url 'contact' %}" class="navbar-item">Contact</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="navbar-item">log in</a>
+                        <a href="{% url 'become_seller' %}" class="navbar-item">sign up</a>
+                    {% endif %}
+
+                    <div class="navbar-item">
+                        <a href="{% url 'cart' %}" class="button is-dark">
+                            Cart
+                            {% if cart %}
+                            ({{ cart|length }})
+                        {% endif %}</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <section class="section">
+            <div class="container">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </section>
+
+        <footer class="footer">
+            <h3 class="is-size-4 mb-4">____________</h3>
+            <a href="/admin" class="button is-info">Admin Panel</a>
+
+        </footer>
+
+        {% block scripts %}
+        {% endblock %}
+    </body>
+</html>

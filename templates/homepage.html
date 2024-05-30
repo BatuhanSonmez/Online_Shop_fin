@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome | {% endblock %}
+
+{% block content %}
+
+    <div class="columns is-multiline mb-6">
+        <div class="column is-12 has-text-centered mt-6 mb-6">
+            <h2 class="is-size-3">Newest items</h2>
+        </div>
+
+        {% for product in newest_products %}
+{#                        transfered to item list#}
+            {% include 'list_item.html' %}
+        {% endfor %}
+
+    </div>
+{% endblock %}
